@@ -1,0 +1,11 @@
+# eclipse project structure
+.classpath
+.project
+
+# build folders
+.gradle
+.idea
+.settings
+bin
+build
+gradle

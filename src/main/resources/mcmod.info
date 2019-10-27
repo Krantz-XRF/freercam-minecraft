@@ -1,0 +1,16 @@
+[
+    {
+        "modid": "yoni",
+        "name": "FreeCam By Why Be No",
+        "description": "",
+        "version": "${version}",
+        "mcversion": "${mcversion}",
+        "url": "",
+        "updateUrl": "",
+        "authorList": [],
+        "credits": "",
+        "logoFile": "",
+        "screenshots": [],
+        "dependencies": []
+    }
+]
