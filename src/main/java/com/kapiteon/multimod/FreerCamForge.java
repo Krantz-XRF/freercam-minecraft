@@ -29,6 +29,9 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(
         modid = FreerCamForge.MOD_ID,
@@ -38,9 +41,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 )
 public class FreerCamForge {
     static final String MOD_ID = "freercam";
-    static final String VERSION = "1.0";
+    static final String VERSION = "1.1";
     static final String MINECRAFT_VERSIONS = "[1.12.2]";
-    static final String NAME = "FreerCam";
+    public static final String NAME = "FreerCam";
+
+    private static final Logger LOGGER = LogManager.getLogger(NAME);
 
     private NetHandlerPlayClientWrapper netHandler;
 
@@ -68,12 +73,14 @@ public class FreerCamForge {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
     public void onEvent(InputEvent.KeyInputEvent event) {
-        if (this.keys[0].isPressed())
+        if (this.keys[0].isPressed()) {
             if (this.enabled) {
                 Disable();
             } else {
                 Enable();
             }
+            LOGGER.log(Level.INFO, "FreerCam Toggled " + (this.enabled ? "on" : "off"));
+        }
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -204,7 +211,6 @@ public class FreerCamForge {
                     field.set(this.mc.playerController, (getInstance()).netHandler);
                     break;
                 } catch (IllegalArgumentException | IllegalAccessException e) {
-
                     e.printStackTrace();
                     break;
                 }

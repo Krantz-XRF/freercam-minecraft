@@ -97,6 +97,9 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.GameType;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @SideOnly(Side.CLIENT)
 public class NetHandlerPlayClientWrapper extends NetHandlerPlayClient {
@@ -104,6 +107,8 @@ public class NetHandlerPlayClientWrapper extends NetHandlerPlayClient {
     private FreerCamForge fc;
     public NetHandlerPlayClient wrapped;
     public static final ArrayList<Function<Packet<?>, Boolean>> sendProcessors = new ArrayList<>();
+
+    private static final Logger LOGGER = LogManager.getLogger(FreerCamForge.NAME);
 
     public NetHandlerPlayClientWrapper(Minecraft mcIn, GuiScreen guiScreenIn, NetworkManager networkManagerIn,
                                        GameProfile profileIn, NetHandlerPlayClient wrapped, FreerCamForge fc) {
@@ -113,23 +118,25 @@ public class NetHandlerPlayClientWrapper extends NetHandlerPlayClient {
         this.wrapped = wrapped;
     }
 
-//    public NetHandlerPlayClientWrapper(Minecraft mcIn, GuiScreen guiScreenIn, NetworkManager networkManagerIn, GameProfile profileIn) {
-//        super(mcIn, guiScreenIn, networkManagerIn, profileIn);
-//    }
+    public NetHandlerPlayClientWrapper(Minecraft mcIn, GuiScreen guiScreenIn, NetworkManager networkManagerIn, GameProfile profileIn) {
+        super(mcIn, guiScreenIn, networkManagerIn, profileIn);
+    }
 
     public void setGameType(UUID uniqueId, GameType gameType) {
         NetworkPlayerInfo pi = this.wrapped.getPlayerInfo(uniqueId);
         pi.setGameType(gameType);
+        LOGGER.info("Game type set: " + gameType.getName() + "\t uniqueId: " + uniqueId);
     }
 
     //#region custom overrides
     @Override
     public void handlePlayerPosLook(SPacketPlayerPosLook packetIn) {
+        LOGGER.debug(packetIn);
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.mc);
         if (this.fc.isEnabled()) {
             this.wrapped.sendPacket(new CPacketConfirmTeleport(packetIn.getTeleportId()));
-            this.wrapped.sendPacket(new CPacketPlayer.PositionRotation(packetIn.getX(), packetIn.getY(), packetIn.getZ(), packetIn
-                    .getYaw(), packetIn.getPitch(), false));
+            this.wrapped.sendPacket(new CPacketPlayer.PositionRotation(
+                    packetIn.getX(), packetIn.getY(), packetIn.getZ(), packetIn.getYaw(), packetIn.getPitch(), false));
         } else {
             this.wrapped.handlePlayerPosLook(packetIn);
         }

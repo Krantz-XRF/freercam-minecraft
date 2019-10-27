@@ -1,14 +1,14 @@
 [
     {
-        "modid": "yoni",
-        "name": "FreeCam By Why Be No",
-        "description": "",
+        "modid": "freercam",
+        "name": "FreerCam",
+        "description": "Fork of FreeCam with some additional features and bugs",
         "version": "${version}",
         "mcversion": "${mcversion}",
-        "url": "",
+        "url": "https://yoni.tech",
         "updateUrl": "",
-        "authorList": [],
-        "credits": "",
+        "authorList": ["Cardboard Box"],
+        "credits": "Cardboard Box, IYoni",
         "logoFile": "",
         "screenshots": [],
         "dependencies": []
