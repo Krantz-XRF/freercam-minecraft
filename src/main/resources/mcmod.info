@@ -5,7 +5,7 @@
         "description": "Fork of FreeCam with some additional features and bugs",
         "version": "${version}",
         "mcversion": "${mcversion}",
-        "url": "https://yoni.tech",
+        "url": "https://iyoni.me",
         "updateUrl": "",
         "authorList": ["Cardboard Box"],
         "credits": "Cardboard Box, iYoni",
